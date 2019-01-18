@@ -1,10 +1,9 @@
 class UserMailer < ApplicationMailer
 	default from: 'no-reply@jungle.com'
 
-	def order_email(user)
-		@user = user
-		@url = [:orders]
-		mail(to: @user.email, subject: 'Order placed!')
+	def order_email(order)
+		@order = order
+		mail(to: @order.email, subject: "Order #{order.id} placed!")
 	end
 
 end
