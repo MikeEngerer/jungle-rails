@@ -25,7 +25,41 @@
         </dl>
       </div>
     </div>
-
+    <div> 
+      <h1>
+        <b>Reviews</b>
+      </h1>
+      <div>
+        <% if current_user %>
+          <%= form_for([@product, @product.reviews.create]) do |f| %>
+            <%= f.select :rating, options_for_select([["Select Rating", ""], 1, 2, 3, 4, 5]) %>
+            <%= f.text_area :description %>
+            <%= f.submit %>
+          <% end %>
+        <% end %>
+      </div>
+      <div>
+        <% @reviews.each do |review| %>
+        <h2 style="display: inline;">
+          <b><%= User.find(review.user_id).first_name %>:</b>
+        </h2>
+        <h4 style="display: inline;">
+          <% empty = 5 - review.rating %>
+          <% empty.times do %>
+            <i class="far fa-star" style="font-size: 1.6em; float: right;"></i>
+          <% end %>
+          <% review.rating.times do  %>
+            <i class="fas fa-star" style="font-size: 1.6em; float: right;"></i>
+          <% end %>
+        </h4>
+        <p>
+          <%= review.description %>
+        </p>
+        <br>
+        <br>
+        <% end %>
+      </div>
+    </div>
   </article>
 
 </section>

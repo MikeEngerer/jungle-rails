@@ -132,5 +132,73 @@ cat3.products.create!({
   price: 2_483.75
 })
 
+puts "seeding reviews..."
 
+Review.destroy_all
+
+prod1 = Product.find(1)
+prod2 = Product.find(2)
+prod3 = Product.find(3)
+
+prod1.reviews.create!({
+  user_id: 1,
+  description: Faker::Hipster.paragraph(4),
+  rating: 3
+})
+
+prod1.reviews.create!({
+  user_id: 2,
+  rating: 4
+})
+
+prod1.reviews.create!({
+  user_id: 3,
+  description: Faker::Hipster.paragraph(4),
+  rating: 1
+})
+
+prod1.reviews.create!({
+  user_id: 2,
+  description: Faker::Hipster.paragraph(4),
+  rating: 5
+})
+
+prod2.reviews.create!({
+  user_id: 1,
+  description: Faker::Hipster.paragraph(4),
+  rating: 5
+})
+
+prod2.reviews.create!({
+  user_id: 3,
+  rating: 3
+})
+
+prod2.reviews.create!({
+  user_id: 2,
+  description: Faker::Hipster.paragraph(4),
+  rating: 1
+})
+
+prod2.reviews.create!({
+  user_id: 1,
+  rating: 2
+})
+
+prod3.reviews.create!({
+  user_id: 1,
+  description: Faker::Hipster.paragraph(4),
+  rating: 5
+})
+
+prod3.reviews.create!({
+  user_id: 2,
+  rating: 4
+})
+
+prod3.reviews.create!({
+  user_id: 3,
+  description: Faker::Hipster.paragraph(4),
+  rating: 3
+})
 puts "DONE!"
