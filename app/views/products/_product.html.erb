@@ -8,6 +8,22 @@
   <p class="description">
     <%= product.description %>
   </p>
+  <% if !product.reviews.empty? %>
+    <% sum = 0 %>
+    <% product.reviews.each do |r| %>
+      <% sum += r.rating %>
+    <% end %>
+    <% average = sum / product.reviews.length %>
+    <% average.times do  %>
+      <i class="fas fa-star" style="font-size: 1.6em; float: left;"></i>
+    <% end %>
+    <% empty = 5 - average %>
+    <% empty.times do %>
+      <i class="far fa-star" style="font-size: 1.6em; float: left;"></i>
+    <% end %>
+  <% else %>
+    <%= "No ratings yet!" %>
+  <% end %>
   <footer class="actions">
     <%= button_to add_item_cart_path(product_id: product.id), class: 'btn btn-primary' , method: :post do %>
       <%= fa_icon "shopping-cart", text: 'Add' %>

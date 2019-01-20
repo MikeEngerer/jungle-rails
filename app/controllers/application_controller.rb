@@ -38,4 +38,21 @@ class ApplicationController < ActionController::Base
     cookies[:cart]
   end
 
+  def reviews?
+    Review.where(product_id: @product.id)
+  end
+  helper_method :reviews?
+
+  def average_rating
+    product_reviews = Review.where(product_id: @product.id)
+    sum = 0
+    product_reviews.each do |r|
+      sum += r.rating
+    end
+  #   if @product_reviews.length > 0
+    sum.to_f / product_reviews.length
+  #   else 
+  #   end
+  end
+  helper_method :average_rating
 end

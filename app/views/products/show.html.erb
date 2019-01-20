@@ -22,44 +22,60 @@
           <dd><%= @product.quantity %></dd>
           <dt>Price</dt>
           <dd><%= @product.price %></dd>
+          <dt>Average Rating</dt>
+          <% if !@product.reviews.empty? %>
+            <dd><%= ((average_rating * 100).floor.to_f / 100) %> / 5</dd>
+          <% else %>
+            <dd> <%= "No ratings yet!" %></dd>
+          <% end %>
         </dl>
       </div>
     </div>
     <div> 
+      <div>
+        <br>
+        <h3>New Review</h3>
+        <% if current_user %>
+          <%= form_for([@product, @product.reviews.create], class: 'form-group') do |f| %>
+            <div>
+              <%= f.select :rating, options_for_select([["Select Rating", ""], 1, 2, 3, 4, 5]) %>
+              <%= f.label :description %>
+                <div>
+                  <%= f.text_area :description %>
+                </div>
+              <%= f.submit class: 'btn btn-sm btn-success' %>
+            </div>
+          <% end %>
+        <% end %>
+        <br>
+      </div>
       <h1>
         <b>Reviews</b>
       </h1>
       <div>
-        <% if current_user %>
-          <%= form_for([@product, @product.reviews.create]) do |f| %>
-            <%= f.select :rating, options_for_select([["Select Rating", ""], 1, 2, 3, 4, 5]) %>
-            <%= f.text_area :description %>
-            <%= f.submit %>
-          <% end %>
-        <% end %>
-      </div>
-      <div>
         <% @reviews.each do |review| %>
-        <h2 style="display: inline;">
-          <b><%= User.find(review.user_id).first_name %>:</b>
-        </h2>
-        <h4 style="display: inline;">
-          <% empty = 5 - review.rating %>
-          <% empty.times do %>
-            <i class="far fa-star" style="font-size: 1.6em; float: right;"></i>
+          <h2 style="display: inline;">
+            <b><%= User.find(review.user_id).first_name %>:</b>
+          </h2>
+          <h4 style="display: inline;">
+            <% empty = 5 - review.rating %>
+            <% empty.times do %>
+              <i class="far fa-star" style="font-size: 1.6em; float: right;"></i>
+            <% end %>
+            <% review.rating.times do  %>
+              <i class="fas fa-star" style="font-size: 1.6em; float: right;"></i>
+            <% end %>
+          </h4>
+          <p style="max-width: 80%">
+            <%= review.description %>
+          </p>
+          <% if current_user && current_user.id == review.user_id %>
+            <%= link_to "Delete Review", [@product, review], class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: "Are you sure?" } %>
           <% end %>
-          <% review.rating.times do  %>
-            <i class="fas fa-star" style="font-size: 1.6em; float: right;"></i>
-          <% end %>
-        </h4>
-        <p>
-          <%= review.description %>
-        </p>
-        <br>
-        <br>
+          <br>
+          <br>
         <% end %>
       </div>
     </div>
   </article>
-
 </section>

@@ -21,6 +21,12 @@ end
 
 # Let's do this ...
 
+## USERS
+
+User.create!(first_name: 'Joe', last_name: 'Rogan', email: 'joe@rogan.com', password: 'joerogan')
+User.create!(first_name: 'Bob', last_name: 'Robert', email: 'bob@robert.com', password: 'bobrobert')
+User.create!(first_name: 'Jack', last_name: 'Smith', email: 'jack@smith.com', password: 'jacksmith')
+
 ## CATEGORIES
 
 puts "Finding or Creating Categories ..."
