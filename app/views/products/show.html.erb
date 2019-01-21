@@ -21,10 +21,10 @@
           <dt>Quantity</dt>
           <dd><%= @product.quantity %></dd>
           <dt>Price</dt>
-          <dd><%= @product.price %></dd>
-          <dt>Average Rating</dt>
+          <dd>$<%= @product.price %></dd>
+          <dt><i class="fas fa-star" style="font-size: .9em;"></i>&nbsp;Average Rating</dt>
           <% if !@product.reviews.empty? %>
-            <dd><%= ((average_rating * 100).floor.to_f / 100) %> / 5</dd>
+            <dd><%= average_rating.round(2) %> / 5</dd>
           <% else %>
             <dd> <%= "No ratings yet!" %></dd>
           <% end %>
@@ -36,22 +36,27 @@
         <br>
         <h3>New Review</h3>
         <% if current_user %>
-          <%= form_for([@product, @product.reviews.create], class: 'form-group') do |f| %>
+          <%= form_for([@product, @product.reviews.create]) do |f| %>
             <div>
               <%= f.select :rating, options_for_select([["Select Rating", ""], 1, 2, 3, 4, 5]) %>
               <%= f.label :description %>
-                <div>
-                  <%= f.text_area :description %>
-                </div>
+              <div>
+                <%= f.text_area :description %>
+              </div>
               <%= f.submit class: 'btn btn-sm btn-success' %>
             </div>
           <% end %>
         <% end %>
         <br>
       </div>
-      <h1>
-        <b>Reviews</b>
-      </h1>
+        <% if @product.reviews.length > 1 %>
+        <h1>
+          <b>Reviews</b>
+        </h1>
+        <% puts @product.reviews.length %>
+        <% else %>
+          <b>No reviews yet. Be the first!</b>
+        <% end %>
       <div>
         <% @reviews.each do |review| %>
           <h2 style="display: inline;">

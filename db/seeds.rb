@@ -142,9 +142,9 @@ puts "seeding reviews..."
 
 Review.destroy_all
 
-prod1 = Product.find(1)
-prod2 = Product.find(2)
-prod3 = Product.find(3)
+prod1 = Product.find(11)
+prod2 = Product.find(12)
+prod3 = Product.find(10)
 
 prod1.reviews.create!({
   user_id: 1,
