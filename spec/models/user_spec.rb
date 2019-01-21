@@ -41,6 +41,42 @@ RSpec.describe User, type: :model do
   end
 
   describe '.authenticate_with_credentials' do
-  	it 'should return user object if password is correct' do 
+  	it 'should return user object if email/password is correct' do 
+   		@user = User.create(email: 'test@test.com', first_name: "test", last_name: "test", password: "test1234", password_confirmation: "test1234")
 
+  		user = User.authenticate_with_credentials('test@test.com', 'test1234')
+
+  		expect(user).to eql(@user)
+  	end
+
+  	it 'should return nil when email is correct, password incorrect' do
+  		@user = User.create(email: 'test@test.com', first_name: "test", last_name: "test", password: "test1234", password_confirmation: "test1234")
+  		user = User.authenticate_with_credentials('test@test.com', 'wrongpassword')
+  		expect(user).to eql(nil)
+  	end
+
+  	it 'should return nil when email is incorrect, password correct' do
+  		@user = User.create(email: 'test@test.com', first_name: "test", last_name: "test", password: "test1234", password_confirmation: "test1234")
+  		user = User.authenticate_with_credentials('wrong@email.com', 'test1234')
+  		expect(user).to eql(nil)
+  	end
+
+  	it 'should return user object if email contains leading/trailing spaces' do
+  		@user = User.create(email: 'test@test.com', first_name: "test", last_name: "test", password: "test1234", password_confirmation: "test1234")
+  		user = User.authenticate_with_credentials('  test@test.com  ', 'test1234')
+  		expect(user).to eql(@user)
+  	end
+
+  	it 'should return nil if email contains spaces within' do
+  		@user = User.create(email: 'test@test.com', first_name: "test", last_name: "test", password: "test1234", password_confirmation: "test1234")
+  		user = User.authenticate_with_credentials('tes t@ test .com', 'test1234')
+  		expect(user).to eql(nil)
+  	end
+
+  	it 'should return user object if email is wrong case' do
+  		@user = User.create(email: 'test@test.com', first_name: "test", last_name: "test", password: "test1234", password_confirmation: "test1234")
+  		user = User.authenticate_with_credentials('TEST@TEST.COM', 'test1234')
+  		expect(user).to eql(@user)
+  	end
+  end
 end	
